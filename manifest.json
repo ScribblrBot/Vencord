@@ -1,0 +1,7 @@
+{
+  "name": "Boop Command Replacer",
+  "description": "Replaces '-b' with 'Boop' and sends it instead",
+  "author": "You",
+  "version": "1.0.0",
+  "main": "boop.js"
+}
