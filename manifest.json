@@ -3,8 +3,5 @@
   "description": "Replaces '-b' with 'Boop' before sending a message",
   "author": "You",
   "version": "1.0.0",
-  "main": "boop.ts",
-  "vendetta": {
-    "icon": "ic:baseline-emoji-people"
-  }
+  "main": "boop.ts"
 }
