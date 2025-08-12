@@ -5,27 +5,29 @@
 // @author       You
 // ==/UserScript==
 
-import { before } from "@vendetta/patcher";
-import { findByProps } from "@vendetta/metro";
-
-interface Message {
+type Message = {
   content: string;
   [key: string]: any;
-}
+};
 
-interface SendMessageArgs {
-  0: string; // channelId
-  1: Message;
-}
-
-const sendMessageModule = findByProps("sendMessage");
-
-let unpatch: (() => void) | undefined;
+type SendMessageArgs = [string, Message];
 
 export default {
   onLoad() {
-    unpatch = before("sendMessage", sendMessageModule, (args: SendMessageArgs) => {
-      const [channelId, message] = args;
+    // Dynamically require Vendetta modules at runtime to avoid bundler errors
+    // @ts-ignore
+    const patcher = require("@vendetta/patcher");
+    // @ts-ignore
+    const metro = require("@vendetta/metro");
+
+    const { before } = patcher;
+    const { findByProps } = metro;
+
+    const sendMessageModule = findByProps("sendMessage");
+
+    // Patch sendMessage before it runs
+    this._unpatch = before("sendMessage", sendMessageModule, (args: SendMessageArgs) => {
+      const [, message] = args;
 
       if (typeof message?.content === "string" && message.content.trim() === "-b") {
         message.content = "Boop";
@@ -34,6 +36,8 @@ export default {
   },
 
   onUnload() {
-    unpatch?.();
+    this._unpatch?.();
   },
+
+  _unpatch: null as (() => void) | null,
 };
