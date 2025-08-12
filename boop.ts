@@ -8,13 +8,23 @@
 import { before } from "@vendetta/patcher";
 import { findByProps } from "@vendetta/metro";
 
+interface Message {
+  content: string;
+  [key: string]: any;
+}
+
+interface SendMessageArgs {
+  0: string; // channelId
+  1: Message;
+}
+
 const sendMessageModule = findByProps("sendMessage");
 
-let unpatch;
+let unpatch: (() => void) | undefined;
 
 export default {
   onLoad() {
-    unpatch = before("sendMessage", sendMessageModule, (args) => {
+    unpatch = before("sendMessage", sendMessageModule, (args: SendMessageArgs) => {
       const [channelId, message] = args;
 
       if (typeof message?.content === "string" && message.content.trim() === "-b") {
