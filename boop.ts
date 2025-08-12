@@ -14,10 +14,10 @@ type SendMessageArgs = [string, Message];
 
 export default {
   onLoad() {
-    // Dynamically require Vendetta modules at runtime to avoid bundler errors
-    // @ts-ignore
+    // Dynamically require Vendetta modules at runtime to avoid bundler issues
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const patcher = require("@vendetta/patcher");
-    // @ts-ignore
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const metro = require("@vendetta/metro");
 
     const { before } = patcher;
@@ -25,7 +25,6 @@ export default {
 
     const sendMessageModule = findByProps("sendMessage");
 
-    // Patch sendMessage before it runs
     this._unpatch = before("sendMessage", sendMessageModule, (args: SendMessageArgs) => {
       const [, message] = args;
 
