@@ -1,6 +1,6 @@
 {
   "name": "Boop Command Replacer",
-  "description": "Replaces '-b' with 'Boop' and sends it instead",
+  "description": "Replaces '-b' with 'Boop' before sending a message",
   "author": "You",
   "version": "1.0.0",
   "main": "boop.js"
